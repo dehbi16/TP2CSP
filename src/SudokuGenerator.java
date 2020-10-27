@@ -5,12 +5,13 @@ import java.util.Random;
 
 public class SudokuGenerator {
 
-	private static int colonnes = 9;
-	private static int lignes = 9;
-	private static int pourcentageGrilleCachee = 70; // à modifier selon la difficulté
+	protected static int colonnes = 9;
+	protected static int lignes = 9;
+	private static int pourcentageGrilleCachee = 60; // à modifier selon la difficulté
 	private static List<Integer> listeAleatoire = new ArrayList<Integer>();
+	protected static int[][] grilleR = new int[lignes][colonnes];
 
-	public static void main(String[] args) {
+	public SudokuGenerator() {
 		int[][] grille = new int[lignes][colonnes];
 		initialisationGrille(grille);
 
@@ -19,6 +20,7 @@ public class SudokuGenerator {
 		}
 		affichageGrille(grille);
 	}
+	
 
 	/*
 	 * MaFonction : initialisationGrille
@@ -78,6 +80,7 @@ public class SudokuGenerator {
 		for(int i=0;i<tableau.length;i++) {
 			for(int j=0;j<tableau.length;j++) {
 				if(generateurAleatoire.nextInt(100) < pourcentageGrilleCachee) { // seulement une partie est affichée selon le pourcentage choisi
+					grilleR[i][j] = 0;
 					if(j == 2 || j == 5 || j == 8 ) {
 						System.out.print("*|");
 					}
@@ -87,6 +90,7 @@ public class SudokuGenerator {
 
 				}
 				else {
+					grilleR[i][j] = tableau[i][j];
 					if(j == 2 || j == 5 || j == 8 ) {
 						System.out.print(tableau[i][j] + "|");
 					}
