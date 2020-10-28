@@ -7,7 +7,7 @@ public class SudokuGenerator {
 
 	protected static int colonnes = 9;
 	protected static int lignes = 9;
-	private static int pourcentageGrilleCachee = 60; // à modifier selon la difficulté
+	private static int pourcentageGrilleCachee = 50; // à modifier selon la difficulté
 	private static List<Integer> listeAleatoire = new ArrayList<Integer>();
 	protected static int[][] grilleR = new int[lignes][colonnes];
 

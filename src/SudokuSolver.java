@@ -5,23 +5,23 @@ public class SudokuSolver {
 	protected static int lignes = 9;
 	protected static int[][] grilleR = SudokuGenerator.grilleR;
 	protected static int[][] solution = new int[lignes][colonnes];
-	static int m = 0;
+	static int count = 0;
 	public SudokuSolver() {
 		for(int i=0; i<lignes; i++) {
 			for(int j=0; j<colonnes; j++) {
-				int a = grilleR[i][j];
-				solution[i][j] = a;
+				solution[i][j] = grilleR[i][j];
 			}
 		}
 		solve(0,0);
 	}
 
 	public static void solve(int i, int j) {
-		//System.out.println("i = "+i+" j = "+j);
 		if (i==lignes) {
-			if(m==0) {
+			
+			if(count==0) {
 				
 				System.out.println("\n");
+				System.out.println(" --------------- ");
 				for (int k=0; k<SudokuGenerator.lignes; k++) {
 					for (int l=0; l<SudokuGenerator.lignes; l++) {
 						if(l == 2 || l == 5 || l == 8 ) {
@@ -36,10 +36,10 @@ public class SudokuSolver {
 						System.out.println("------------------");
 					}
 				}
-			}
-			m++;
-
-
+				count++;  
+			}		
+			
+			
 		}
 		else {
 			if (grilleR[i][j]!=0) {
@@ -50,17 +50,13 @@ public class SudokuSolver {
 			}
 			else {
 				ArrayList<Integer> position=nombrePossible(i,j);
-				/*System.out.println("i = "+i+" j = "+j);
-				for (int k=0; k<position.size(); k++) {
-					System.out.print(position.get(k)+" ");
-				}
-				System.out.println();*/
+				
 				for(int k=0;k<position.size();k++) {
 					solution[i][j] = position.get(k);
 					if (j==colonnes-1) solve(i+1,0);
 					else solve(i,j+1);
-					//solution.remove(solution.size()-1);
 				}
+				solution[i][j] = 0;
 			}
 		}
 
@@ -83,16 +79,10 @@ public class SudokuSolver {
 
 		for(int l=carreDepartLigne;l<carreArriveeLigne;l++) {
 			for(int m=carreDepartColonne;m<carreArriveeColonne;m++) {
-				if(l<i && m<j) {
-					if(k == solution[l][m]) {
-						return false;
-					}
+				if(k == solution[l][m] && l!=i && m!=j) {
+					return false;
 				}
-				else {
-					if(k == grilleR[l][m]) {
-						return false;
-					}
-				}
+
 
 			}
 		}
@@ -101,12 +91,8 @@ public class SudokuSolver {
 
 	private static boolean verificationLigne(int k, int i, int j) {
 		for(int l=0; l<lignes; l++) {
-			if (l<i) {
-				if (k == solution[l][j]) return false;
-			}
-			else {
-				if (k == grilleR[l][j]) return false;
-			}
+			if (k == solution[l][j] && l!=i) return false;
+
 
 		}
 		return true;
@@ -114,12 +100,7 @@ public class SudokuSolver {
 
 	private static boolean verificationColonne(int k, int i, int j) {
 		for(int l=0; l<colonnes; l++) {
-			if (l<j) {
-				if (k == solution[i][l]) return false;
-			}
-			else {
-				if (k == grilleR[i][l]) return false;
-			}
+			if (k == solution[i][l] && l!=j) return false;
 
 		}
 		return true;
